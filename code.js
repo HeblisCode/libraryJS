@@ -17,11 +17,27 @@ function displayBook(book) {
   const bookContainer = document.createElement("div");
   bookContainer.classList.add("book");
 
+  const checkbox = document.createElement("input");
+  const label = document.createElement("label");
+
+  checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("name", "read");
+  label.setAttribute("for", "read");
+  label.innerText = "Read";
+
   for (let keys in book) {
-    const paragraph = document.createElement("p");
-    paragraph.innerText = keys;
-    bookContainer.appendChild(paragraph);
+    if (keys !== "read") {
+      const paragraph = document.createElement("p");
+      paragraph.innerText = book[keys];
+      paragraph.classList.add(keys);
+      bookContainer.appendChild(paragraph);
+    } else {
+      book[keys] ? (checkbox.checked = true) : (checkbox.checked = false);
+    }
   }
+
+  label.appendChild(checkbox);
+  bookContainer.appendChild(label);
 
   return bookContainer;
 }
@@ -37,6 +53,6 @@ function displayAllBooks() {
 
 const button = document.querySelector("#test");
 button.addEventListener("click", () => {
-  addBookToShelf("title", "author", "pages");
+  addBookToShelf("vanaana", "authfadgor", "pgsgfages", false);
   displayAllBooks();
 });
