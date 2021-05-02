@@ -13,10 +13,7 @@ function addBookToShelf(title, author, pages, read) {
   console.log(shelf);
 }
 
-function displayBook(book) {
-  const bookContainer = document.createElement("div");
-  bookContainer.classList.add("book");
-
+function createCheckbox() {
   const checkbox = document.createElement("input");
   const label = document.createElement("label");
 
@@ -24,6 +21,17 @@ function displayBook(book) {
   checkbox.setAttribute("name", "read");
   label.setAttribute("for", "read");
   label.innerText = "Read";
+
+  label.appendChild(checkbox);
+
+  return label;
+}
+
+function displayBook(book) {
+  const bookContainer = document.createElement("div");
+  bookContainer.classList.add("book");
+  const checkboxLabel = createCheckbox();
+  const checkbox = checkboxLabel.querySelector("input");
 
   for (let keys in book) {
     if (keys !== "read") {
@@ -36,9 +44,7 @@ function displayBook(book) {
     }
   }
 
-  label.appendChild(checkbox);
-  bookContainer.appendChild(label);
-
+  bookContainer.appendChild(checkboxLabel);
   return bookContainer;
 }
 
@@ -51,8 +57,33 @@ function displayAllBooks() {
   });
 }
 
+//NEW BOOK FORM*******************************************************************************************************
+function openForm() {
+  const formContainer = document.querySelector("#addBookMenuContainer");
+  formContainer.style.display = "block";
+}
+function closeForm() {
+  const formContainer = document.querySelector("#addBookMenuContainer");
+  formContainer.style.display = "none";
+}
+function submitForm() {
+  const bookInfo = document.querySelectorAll("form > input");
+  addBookToShelf(
+    bookInfo[0].value,
+    bookInfo[1].value,
+    bookInfo[2].value,
+    bookInfo[3].checked
+  );
+  displayAllBooks();
+  closeForm();
+}
+
 const button = document.querySelector("#test");
 button.addEventListener("click", () => {
-  addBookToShelf("vanaana", "authfadgor", "pgsgfages", false);
-  displayAllBooks();
+  openForm();
+});
+
+const submit = document.querySelector("#submitForm");
+submit.addEventListener("click", (e) => {
+  submitForm();
 });
