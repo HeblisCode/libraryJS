@@ -7,18 +7,30 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
+Book.prototype.changeReadStatus = function (bool) {
+  this.read = bool;
+};
+
+//ADD BOOKS******************************************************************************************************************************
 function addBookToShelf(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   shelf.push(book);
-  console.log(shelf);
+}
+function removeBookFromShelf(title) {
+  for (let i = 0; i < shelf.length; i++) {
+    if (shelf[i].title === title) shelf.splice(i, 1);
+  }
 }
 
-function createCheckbox() {
+//CREATE BOOK HTML PARTS************************************************************************************************
+function createCheckbox(checked) {
   const checkbox = document.createElement("input");
   const label = document.createElement("label");
 
   checkbox.setAttribute("type", "checkbox");
   checkbox.setAttribute("name", "read");
+  checked ? (checkbox.checked = true) : (checkbox.checked = false);
+
   label.setAttribute("for", "read");
   label.innerText = "Read";
 
@@ -26,34 +38,64 @@ function createCheckbox() {
 
   return label;
 }
+function createParagraph(type, content) {
+  const paragraph = document.createElement("p");
+  paragraph.innerText = content;
+  paragraph.classList.add(type);
 
+  return paragraph;
+}
+function createDeleteButton() {
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteButton");
+  deleteButton.innerText = "DELETE";
+  return deleteButton;
+}
+function addEventListenerToBook(book) {
+  const bookContainer = document.querySelector(`#${book.title}`);
+  console.log(bookContainer);
+  const deleteButton = bookContainer.querySelector(".deleteButton");
+  const checkbox = bookContainer.querySelector("label > input");
+
+  deleteButton.addEventListener("click", () => {
+    const bookContainer = document.querySelector(`#${book.title}`);
+    bookContainer.remove();
+    removeBookFromShelf(book.title);
+  });
+
+  checkbox.addEventListener("change", () => {
+    book.changeReadStatus(checkbox.checked);
+  });
+}
+
+//DISPLAY BOOK************************************************************************************************
 function displayBook(book) {
+  const shelfContainer = document.querySelector("#shelf");
   const bookContainer = document.createElement("div");
   bookContainer.classList.add("book");
-  const checkboxLabel = createCheckbox();
-  const checkbox = checkboxLabel.querySelector("input");
+  bookContainer.id = book.title;
 
-  for (let keys in book) {
-    if (keys !== "read") {
-      const paragraph = document.createElement("p");
-      paragraph.innerText = book[keys];
-      paragraph.classList.add(keys);
-      bookContainer.appendChild(paragraph);
-    } else {
-      book[keys] ? (checkbox.checked = true) : (checkbox.checked = false);
-    }
-  }
+  const titlePar = createParagraph("title", book.title);
+  const authorPar = createParagraph("author", book.author);
+  const pagesPar = createParagraph("pages", book.pages);
+  const checkboxLabel = createCheckbox(book.read);
+  const deleteButton = createDeleteButton(book.title);
 
+  bookContainer.appendChild(titlePar);
+  bookContainer.appendChild(authorPar);
+  bookContainer.appendChild(pagesPar);
   bookContainer.appendChild(checkboxLabel);
-  return bookContainer;
+  bookContainer.appendChild(deleteButton);
+
+  shelfContainer.appendChild(bookContainer);
+  addEventListenerToBook(book);
 }
 
 function displayAllBooks() {
   const shelfContainer = document.querySelector("#shelf");
   shelfContainer.innerHTML = "";
   shelf.forEach((book) => {
-    const newBook = displayBook(book);
-    shelfContainer.appendChild(newBook);
+    displayBook(book);
   });
 }
 
