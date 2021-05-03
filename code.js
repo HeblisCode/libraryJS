@@ -89,7 +89,7 @@ function addEventListenerToBook(book) {
   deleteButton.addEventListener("click", () => {
     const bookContainer = document.querySelector(`#${book.id}`);
     bookContainer.remove();
-    removeBookFromShelf(book.title);
+    removeBookFromShelf(book.id);
   });
 
   checkbox.addEventListener("click", (e) => {
