@@ -27,20 +27,42 @@ function removeBookFromShelf(id) {
   localStorage.setItem("shelfArray", JSON.stringify(shelf));
 }
 
+//NEW BOOK FORM*******************************************************************************************************
+function submitForm() {
+  const bookInfo = document.querySelectorAll("form > input");
+  const readInfo = document.querySelector("#trueCheckboxForm");
+  const newBook = addBookToShelf(
+    bookInfo[0].value,
+    bookInfo[1].value,
+    bookInfo[2].value,
+    readInfo.checked,
+    "id" + Math.floor(Math.random() * 99999) //random id
+  );
+  displayBook(newBook);
+  closePopUpMenu("addBookMenuContainer");
+}
+
 //CREATE BOOK HTML PARTS************************************************************************************************
 function createCheckbox(checked) {
-  const checkbox = document.createElement("input");
-  const label = document.createElement("label");
+  const icon = document.createElement("span");
+  const paragraph = document.createElement("p");
+  const checkboxContainer = document.createElement("div");
+  const wrapper = document.createElement("div");
 
-  checkbox.setAttribute("type", "checkbox");
-  checkbox.setAttribute("name", "read");
-  checked ? (checkbox.checked = true) : (checkbox.checked = false);
+  icon.innerText = "done";
+  icon.classList.add("material-icons");
+  if (checked) icon.classList.add("checkbox_true");
 
-  label.setAttribute("for", "read");
-  label.innerText = "Read";
+  paragraph.innerText = "Read?";
 
-  label.appendChild(checkbox);
-  return label;
+  checkboxContainer.classList.add("checkbox");
+  checkboxContainer.appendChild(icon);
+
+  wrapper.classList.add("readStatusContainer");
+  wrapper.appendChild(paragraph);
+  wrapper.appendChild(checkboxContainer);
+
+  return wrapper;
 }
 function createParagraph(type, content) {
   const paragraph = document.createElement("p");
@@ -60,7 +82,9 @@ function addEventListenerToBook(book) {
   const bookContainer = document.querySelector(`#${book.id}`);
   console.log(bookContainer);
   const deleteButton = bookContainer.querySelector(".deleteButton");
-  const checkbox = bookContainer.querySelector("label > input");
+  const checkbox = bookContainer.querySelector(
+    ".readStatusContainer > div > span"
+  );
 
   deleteButton.addEventListener("click", () => {
     const bookContainer = document.querySelector(`#${book.id}`);
@@ -68,7 +92,8 @@ function addEventListenerToBook(book) {
     removeBookFromShelf(book.title);
   });
 
-  checkbox.addEventListener("change", () => {
+  checkbox.addEventListener("click", (e) => {
+    toggleCheckbox(e);
     book.toggleReadStatus();
   });
 }
@@ -83,19 +108,18 @@ function displayBook(book) {
   const titlePar = createParagraph("title", book.title);
   const authorPar = createParagraph("author", book.author);
   const pagesPar = createParagraph("pages", book.pages);
-  const checkboxLabel = createCheckbox(book.read);
+  const checkboxWrapper = createCheckbox(book.read);
   const deleteButton = createDeleteButton(book.title);
 
   bookContainer.appendChild(titlePar);
   bookContainer.appendChild(authorPar);
   bookContainer.appendChild(pagesPar);
-  bookContainer.appendChild(checkboxLabel);
+  bookContainer.appendChild(checkboxWrapper);
   bookContainer.appendChild(deleteButton);
 
   shelfContainer.appendChild(bookContainer);
   addEventListenerToBook(book);
 }
-
 function displayAllBooks() {
   if (shelf.length === 0) return;
   const shelfContainer = document.querySelector("#shelf");
@@ -115,27 +139,18 @@ function closePopUpMenu(container) {
   menu.style.display = "none";
 }
 
-//NEW BOOK FORM*******************************************************************************************************
-function submitForm() {
-  const bookInfo = document.querySelectorAll("form > input");
-  const newBook = addBookToShelf(
-    bookInfo[0].value,
-    bookInfo[1].value,
-    bookInfo[2].value,
-    bookInfo[3].checked,
-    "id" + Math.floor(Math.random() * 99999) //random id
-  );
-  displayBook(newBook);
-  closePopUpMenu("addBookMenuContainer");
+//CHEBOXES*************************************************************************************************************
+function toggleCheckbox(e) {
+  e.target.classList.toggle("checkbox_true");
 }
 
 //INIT FUNCTION********************************************************************************************************
 function init() {
   //get the books
   const shelfArray = localStorage.getItem("shelfArray");
-  const sideMenuButton = document.querySelector("#sideMenuButton");
-  const addBookButton = document.querySelector("#addBookButton");
+  const addBookButton = document.querySelector("#addBookMenuButton");
   const submitFormButton = document.querySelector("#submitForm");
+  const checkbox = document.querySelector("#formCheckbox > span");
 
   if (shelfArray === null) {
     shelf = [];
@@ -147,30 +162,27 @@ function init() {
   displayAllBooks();
 
   //set event listeners
-  window.addEventListener("click", (e) => {
-    if (
-      e.target.id === "addBookMenuContainer" ||
-      e.target.id === "sideMenuContainer"
-    ) {
+  window.addEventListener("mousedown", (e) => {
+    if (e.target.id === "addBookMenuContainer") {
       closePopUpMenu(e.target.id);
     }
   });
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      closePopUpMenu("sideMenuContainer");
       closePopUpMenu("addBookMenuContainer");
     }
   });
   addBookButton.addEventListener("click", () => {
     openPopUpMenu("addBookMenuContainer");
-    closePopUpMenu("sideMenuContainer");
   });
   submitFormButton.addEventListener("click", () => {
     submitForm();
   });
-  sideMenuButton.addEventListener("click", () =>
-    openPopUpMenu("sideMenuContainer")
-  );
+  checkbox.addEventListener("click", (e) => {
+    const trueCheckbox = document.querySelector("#trueCheckboxForm");
+    toggleCheckbox(e);
+    trueCheckbox.checked = !trueCheckbox.checked;
+  });
 }
 
 init();

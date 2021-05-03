@@ -21,7 +21,7 @@
   <body>
     <nav>
       <h1>Library JS</h1>
-      <span class="material-icons" id="sideMenuButton"> menu </span>
+      <span class="material-icons" id="addBookMenuButton">add</span>
       <div id="addBooks">
         <p>Add your books!</p>
         <span class="material-icons">navigate_next</span>
@@ -32,33 +32,45 @@
 
     <footer></footer>
 
-    <div id="sideMenuContainer" class="popUpMenu">
-      <div id="sideMenu">
-        <h2>Stats!</h2>
-        <div id="stats">
-          <p>Books read: 10</p>
-          <p>Total books: 41</p>
-          <p>Pages read: 3124</p>
-          <p>Pages left: 1233</p>
-          <p>Books left: 31</p>
-        </div>
-        <button id="addBookButton">Add Book!</button>
-      </div>
-    </div>
-
     <div id="addBookMenuContainer">
       <div id="addBookMenu">
+        <h2>Add your book</h2>
         <form>
-          <label for="title">Title</label>
-          <input type="text" name="title" placeholder="Title" required />
-          <label for="title">Author</label>
-          <input type="text" name="author" placeholder="Author" required />
-          <label for="title">Pages</label>
-          <input type="text" name="pages" placeholder="Pages" required />
-          <label for="readCheck">Read?</label>
-          <input type="checkbox" name="readCheck" />
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            required
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            name="author"
+            placeholder="Author"
+            required
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            name="pages"
+            placeholder="Pages"
+            required
+            autocomplete="off"
+          />
+          <div id="readInfo">
+            <p>Read?</p>
+            <div id="formCheckbox" class="checkbox">
+              <span class="material-icons">done</span>
+              <input
+                id="trueCheckboxForm"
+                class="trueCheckbox"
+                type="checkbox"
+                name="readCheck"
+              />
+            </div>
+          </div>
         </form>
-        <button id="submitForm">Submit</button>
+        <button id="submitForm">Add</button>
       </div>
     </div>
   </body>

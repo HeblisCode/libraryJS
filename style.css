@@ -56,7 +56,7 @@ h1 {
   );
   -webkit-background-clip: text;
 }
-#sideMenuButton {
+#addBookMenuButton {
   position: fixed;
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@ h1 {
   top: 25px;
   right: 10px;
 }
-#sideMenuButton:hover {
+#addBookMenuButton:hover {
   cursor: pointer;
   background-color: var(--secondary);
 }
@@ -164,6 +164,16 @@ h1 {
   color: var(--accentTwo);
   background-color: var(--accentOne);
 }
+.readStatusContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 15px;
+}
+.readStatusContainer > p {
+  font-size: 20px;
+}
 
 /*ADD BOOK MENU STYLING**********************************************************************************/
 #addBookMenuContainer {
@@ -177,37 +187,88 @@ h1 {
   background-color: rgba(0, 0, 0, 0.6);
 }
 #addBookMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 50%;
-  width: 50%;
+  height: 500px;
+  width: 400px;
   background-color: var(--secondary);
+}
+#addBookMenu > h2 {
+  margin: 40px;
+  font-size: 40px;
+  color: var(--accentOne);
+  background-color: var(--accentTwo);
+  padding: 5px 15px 5px 15px;
+  border-radius: 5px;
 }
 form {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+form > input {
+  width: 280px;
+  border: none;
+  margin: 10px;
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--accentOne);
+  color: var(--primary);
+}
+#readInfo {
+  display: flex;
+  align-items: center;
+  margin: 15px;
+  font-size: 20px;
+  color: var(--accentOne);
+}
+#readInfo > p {
+  margin-right: 10px;
+}
+#submitForm {
+  font-size: 25px;
+  height: 40px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--accentTwo);
+  color: var(--accentOne);
+}
+#submitForm:hover {
+  cursor: pointer;
+  color: var(--accentTwo);
+  background-color: var(--accentOne);
 }
 
-/*SIDE MENU STYLING***************************************************************************************/
-#sideMenuContainer {
-  z-index: 11;
-  position: fixed;
-  display: none;
-  top: 0;
-  left: 0;
-  min-height: 100vh;
-  width: 100vw;
+/*CHECKBOX********************************************************************************************************/
+.checkbox {
+  background-color: var(--accentOne);
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 3px;
+  color: var(--accentOne);
+  cursor: pointer;
 }
-#sideMenu {
-  position: fixed;
-  top: 35px;
-  right: 35px;
-  width: 250px;
-  height: 300px;
-  background-color: var(--secondary);
-  border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 30px 2px rgb(0 0 0 / 51%);
-  box-shadow: 0px 0px 30px 2px rgb(0 0 0 / 51%);
+.checkbox > span {
+  user-select: none;
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox_true {
+  color: var(--accentOne);
+  background-color: var(--accentTwo);
+}
+.trueCheckbox {
+  display: block;
 }
