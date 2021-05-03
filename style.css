@@ -14,6 +14,14 @@ body {
   flex-direction: column;
 }
 
+/*VARIABLES*********************************************************************************************/
+:root {
+  --primary: #2f5061;
+  --secondary: #e57f84;
+  --accentOne: #f4eae6;
+  --accentTwo: #4297a0;
+}
+
 /*NAV BAR STYLING**************************************************************************************/
 nav {
   position: sticky;
@@ -83,24 +91,20 @@ h1 {
   align-items: center;
   font-size: 25px;
   color: var(--accentTwo);
+  background-color: var(--accentOne);
+  padding: 0px 10px 0px 10px;
+  border-radius: 5px;
 }
 #addBooks > .material-icons {
   font-size: 36px;
   margin-bottom: 3px;
 }
 
-/*VARIABLES*********************************************************************************************/
-:root {
-  --primary: #2f5061;
-  --secondary: #e57f84;
-  --accentOne: #f4eae6;
-  --accentTwo: #4297a0;
-}
-
+/*SHELF*************************************************************************************************/
 #shelf {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   justify-items: center;
   gap: 40px;
   margin-top: 40px;
@@ -271,4 +275,33 @@ form > input {
 }
 .trueCheckbox {
   display: block;
+}
+
+/*AUTHOR INFO********************************************************/
+footer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 50px;
+  background-color: var(--primary);
+  border-top: 1px solid var(--accentOne);
+}
+#author {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+#author > a:hover {
+  color: var(--secondary);
+}
+#author > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  text-decoration: none;
+  color: var(--accentOne);
+  font-size: 20px;
 }
