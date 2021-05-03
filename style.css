@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  font-family: "Staatliches", cursive;
 }
 html {
   height: 100%;
@@ -16,33 +17,47 @@ body {
 /*NAV BAR STYLING**************************************************************************************/
 nav {
   position: sticky;
+  z-index: 10;
   top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
+  height: 90px;
+  width: 100%;
   background: linear-gradient(
     45deg,
     var(--primary) 0%,
-    var(--primary) 25%,
+    var(--primary) 24.9%,
     var(--secondary) 25%,
-    var(--secondary) 50%,
+    var(--secondary) 49.9%,
     var(--accentTwo) 50%,
-    var(--accentTwo) 75%,
+    var(--accentTwo) 74.9%,
     var(--accentOne) 75%
   );
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: auto;
   border-bottom: 1px solid var(--accentOne);
-  margin-bottom: 40px;
 }
 h1 {
-  font-size: 2.5rem;
-  color: var(--accentOne);
-  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  font-size: 50px;
+  font-weight: normal;
+  color: transparent;
+  font-family: "Monoton", cursive;
+  background: linear-gradient(
+    45deg,
+    var(--accentOne) 0%,
+    var(--accentOne) 24.9%,
+    var(--primary) 25%,
+    var(--primary) 49.9%,
+    var(--accentOne) 50%,
+    var(--accentOne) 74.9%,
+    var(--secondary) 75%
+  );
+  -webkit-background-clip: text;
 }
 #sideMenuButton {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,12 +67,29 @@ h1 {
   background-color: var(--accentTwo);
   border-radius: 20px;
   margin-right: 15px;
+  top: 25px;
+  right: 10px;
 }
 #sideMenuButton:hover {
   cursor: pointer;
   background-color: var(--secondary);
 }
+#addBooks {
+  z-index: 11;
+  position: fixed;
+  top: 28px;
+  right: 70px;
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  color: var(--accentTwo);
+}
+#addBooks > .material-icons {
+  font-size: 36px;
+  margin-bottom: 3px;
+}
 
+/*VARIABLES*********************************************************************************************/
 :root {
   --primary: #2f5061;
   --secondary: #e57f84;
@@ -66,21 +98,27 @@ h1 {
 }
 
 #shelf {
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
   gap: 40px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
 /*BOOK STYLING******************************************************************************************/
 .book {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--secondary);
-  height: 250px;
-  width: 200px;
+  height: 350px;
+  width: 280px;
   color: var(--accentOne);
   word-wrap: break-word;
   padding: 20px;
@@ -88,13 +126,48 @@ h1 {
   box-shadow: 0px 0px 30px 2px rgb(0 0 0 / 51%);
 }
 .title {
-  font-size: 30px;
+  font-size: 40px;
   width: 100%;
   text-align: center;
+  margin-bottom: 20px;
+}
+.author {
+  display: block;
+  box-sizing: content-box;
+  font-size: 20px;
+  color: var(--accentOne);
+  background-color: var(--accentTwo);
+  padding: 8px;
+  border-radius: 7px;
+}
+.pages {
+  font-size: 20px;
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+}
+.book > span {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accentTwo);
+  color: var(--accentOne);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.book > span:hover {
+  color: var(--accentTwo);
+  background-color: var(--accentOne);
 }
 
 /*ADD BOOK MENU STYLING**********************************************************************************/
 #addBookMenuContainer {
+  z-index: 11;
   display: none;
   position: fixed;
   left: 0;
@@ -119,6 +192,7 @@ form {
 
 /*SIDE MENU STYLING***************************************************************************************/
 #sideMenuContainer {
+  z-index: 11;
   position: fixed;
   display: none;
   top: 0;

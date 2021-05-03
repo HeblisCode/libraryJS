@@ -1,10 +1,11 @@
 let shelf = [];
 
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, id) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.id = id;
 }
 
 Book.prototype.toggleReadStatus = function () {
@@ -13,15 +14,15 @@ Book.prototype.toggleReadStatus = function () {
 };
 
 //ADD BOOKS******************************************************************************************************************************
-function addBookToShelf(title, author, pages, read) {
-  const book = new Book(title, author, pages, read);
+function addBookToShelf(title, author, pages, read, id) {
+  const book = new Book(title, author, pages, read, id);
   shelf.push(book);
   localStorage.setItem("shelfArray", JSON.stringify(shelf));
   return book;
 }
-function removeBookFromShelf(title) {
+function removeBookFromShelf(id) {
   for (let i = 0; i < shelf.length; i++) {
-    if (shelf[i].title === title) shelf.splice(i, 1);
+    if (shelf[i].id === id) shelf.splice(i, 1);
   }
   localStorage.setItem("shelfArray", JSON.stringify(shelf));
 }
@@ -49,19 +50,20 @@ function createParagraph(type, content) {
   return paragraph;
 }
 function createDeleteButton() {
-  const deleteButton = document.createElement("button");
+  const deleteButton = document.createElement("span");
   deleteButton.classList.add("deleteButton");
-  deleteButton.innerText = "DELETE";
+  deleteButton.classList.add("material-icons");
+  deleteButton.innerText = "close";
   return deleteButton;
 }
 function addEventListenerToBook(book) {
-  const bookContainer = document.querySelector(`#${book.title}`);
+  const bookContainer = document.querySelector(`#${book.id}`);
   console.log(bookContainer);
   const deleteButton = bookContainer.querySelector(".deleteButton");
   const checkbox = bookContainer.querySelector("label > input");
 
   deleteButton.addEventListener("click", () => {
-    const bookContainer = document.querySelector(`#${book.title}`);
+    const bookContainer = document.querySelector(`#${book.id}`);
     bookContainer.remove();
     removeBookFromShelf(book.title);
   });
@@ -76,7 +78,7 @@ function displayBook(book) {
   const shelfContainer = document.querySelector("#shelf");
   const bookContainer = document.createElement("div");
   bookContainer.classList.add("book");
-  bookContainer.id = book.title;
+  bookContainer.id = book.id;
 
   const titlePar = createParagraph("title", book.title);
   const authorPar = createParagraph("author", book.author);
@@ -120,7 +122,8 @@ function submitForm() {
     bookInfo[0].value,
     bookInfo[1].value,
     bookInfo[2].value,
-    bookInfo[3].checked
+    bookInfo[3].checked,
+    "id" + Math.floor(Math.random() * 99999) //random id
   );
   displayBook(newBook);
   closePopUpMenu("addBookMenuContainer");
