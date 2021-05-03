@@ -15,12 +15,15 @@ body {
 
 /*NAV BAR STYLING**************************************************************************************/
 nav {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 70px;
   background: linear-gradient(
     45deg,
+    var(--primary) 0%,
     var(--primary) 25%,
     var(--secondary) 25%,
     var(--secondary) 50%,
@@ -28,11 +31,14 @@ nav {
     var(--accentTwo) 75%,
     var(--accentOne) 75%
   );
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto;
   border-bottom: 1px solid var(--accentOne);
   margin-bottom: 40px;
 }
 h1 {
-  font-size: 45px;
+  font-size: 2.5rem;
   color: var(--accentOne);
   margin-left: 15px;
 }
@@ -109,4 +115,25 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
+}
+
+/*SIDE MENU STYLING***************************************************************************************/
+#sideMenuContainer {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100vw;
+}
+#sideMenu {
+  position: fixed;
+  top: 35px;
+  right: 35px;
+  width: 250px;
+  height: 300px;
+  background-color: var(--secondary);
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 30px 2px rgb(0 0 0 / 51%);
+  box-shadow: 0px 0px 30px 2px rgb(0 0 0 / 51%);
 }

@@ -103,15 +103,17 @@ function displayAllBooks() {
   });
 }
 
+//POP UP MENU***********************************************************************************************************
+function openPopUpMenu(container) {
+  const menu = document.querySelector(`#${container}`);
+  menu.style.display = "block";
+}
+function closePopUpMenu(container) {
+  const menu = document.querySelector(`#${container}`);
+  menu.style.display = "none";
+}
+
 //NEW BOOK FORM*******************************************************************************************************
-function openForm() {
-  const formContainer = document.querySelector("#addBookMenuContainer");
-  formContainer.style.display = "block";
-}
-function closeForm() {
-  const formContainer = document.querySelector("#addBookMenuContainer");
-  formContainer.style.display = "none";
-}
 function submitForm() {
   const bookInfo = document.querySelectorAll("form > input");
   const newBook = addBookToShelf(
@@ -121,25 +123,19 @@ function submitForm() {
     bookInfo[3].checked
   );
   displayBook(newBook);
-  closeForm();
+  closePopUpMenu("addBookMenuContainer");
 }
-
-const button = document.querySelector("#test");
-button.addEventListener("click", () => {
-  openForm();
-});
-
-const submit = document.querySelector("#submitForm");
-submit.addEventListener("click", (e) => {
-  submitForm();
-});
 
 //INIT FUNCTION********************************************************************************************************
 function init() {
   //get the books
   const shelfArray = localStorage.getItem("shelfArray");
+  const sideMenuButton = document.querySelector("#sideMenuButton");
+  const addBookButton = document.querySelector("#addBookButton");
+  const submitFormButton = document.querySelector("#submitForm");
+
   if (shelfArray === null) {
-    return;
+    shelf = [];
   } else {
     shelf = JSON.parse(shelfArray).map((book) =>
       Object.assign(new Book(), book)
@@ -149,11 +145,29 @@ function init() {
 
   //set event listeners
   window.addEventListener("click", (e) => {
-    if (e.target.id === "addBookMenuContainer") closeForm();
+    if (
+      e.target.id === "addBookMenuContainer" ||
+      e.target.id === "sideMenuContainer"
+    ) {
+      closePopUpMenu(e.target.id);
+    }
   });
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeForm();
+    if (e.key === "Escape") {
+      closePopUpMenu("sideMenuContainer");
+      closePopUpMenu("addBookMenuContainer");
+    }
   });
+  addBookButton.addEventListener("click", () => {
+    openPopUpMenu("addBookMenuContainer");
+    closePopUpMenu("sideMenuContainer");
+  });
+  submitFormButton.addEventListener("click", () => {
+    submitForm();
+  });
+  sideMenuButton.addEventListener("click", () =>
+    openPopUpMenu("sideMenuContainer")
+  );
 }
 
 init();
