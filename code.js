@@ -7,19 +7,23 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
-Book.prototype.changeReadStatus = function (bool) {
-  this.read = bool;
+Book.prototype.toggleReadStatus = function () {
+  this.read = !this.read;
+  localStorage.setItem("shelfArray", JSON.stringify(shelf));
 };
 
 //ADD BOOKS******************************************************************************************************************************
 function addBookToShelf(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   shelf.push(book);
+  localStorage.setItem("shelfArray", JSON.stringify(shelf));
+  return book;
 }
 function removeBookFromShelf(title) {
   for (let i = 0; i < shelf.length; i++) {
     if (shelf[i].title === title) shelf.splice(i, 1);
   }
+  localStorage.setItem("shelfArray", JSON.stringify(shelf));
 }
 
 //CREATE BOOK HTML PARTS************************************************************************************************
@@ -35,7 +39,6 @@ function createCheckbox(checked) {
   label.innerText = "Read";
 
   label.appendChild(checkbox);
-
   return label;
 }
 function createParagraph(type, content) {
@@ -64,7 +67,7 @@ function addEventListenerToBook(book) {
   });
 
   checkbox.addEventListener("change", () => {
-    book.changeReadStatus(checkbox.checked);
+    book.toggleReadStatus();
   });
 }
 
@@ -92,6 +95,7 @@ function displayBook(book) {
 }
 
 function displayAllBooks() {
+  if (shelf.length === 0) return;
   const shelfContainer = document.querySelector("#shelf");
   shelfContainer.innerHTML = "";
   shelf.forEach((book) => {
@@ -110,13 +114,13 @@ function closeForm() {
 }
 function submitForm() {
   const bookInfo = document.querySelectorAll("form > input");
-  addBookToShelf(
+  const newBook = addBookToShelf(
     bookInfo[0].value,
     bookInfo[1].value,
     bookInfo[2].value,
     bookInfo[3].checked
   );
-  displayAllBooks();
+  displayBook(newBook);
   closeForm();
 }
 
@@ -129,3 +133,20 @@ const submit = document.querySelector("#submitForm");
 submit.addEventListener("click", (e) => {
   submitForm();
 });
+
+//INIT FUNCTION********************************************************************************************************
+function init() {
+  const shelfArray = localStorage.getItem("shelfArray");
+  if (shelfArray === null) {
+    return;
+  } else {
+    shelf = JSON.parse(shelfArray);
+    shelf.forEach((book) => {
+      book.prototype = Object.create(Book.prototype);
+    });
+  }
+  console.log(shelf);
+  displayAllBooks();
+}
+
+init();
