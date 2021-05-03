@@ -136,17 +136,24 @@ submit.addEventListener("click", (e) => {
 
 //INIT FUNCTION********************************************************************************************************
 function init() {
+  //get the books
   const shelfArray = localStorage.getItem("shelfArray");
   if (shelfArray === null) {
     return;
   } else {
-    shelf = JSON.parse(shelfArray);
-    shelf.forEach((book) => {
-      book.prototype = Object.create(Book.prototype);
-    });
+    shelf = JSON.parse(shelfArray).map((book) =>
+      Object.assign(new Book(), book)
+    );
   }
-  console.log(shelf);
   displayAllBooks();
+
+  //set event listeners
+  window.addEventListener("click", (e) => {
+    if (e.target.id === "addBookMenuContainer") closeForm();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeForm();
+  });
 }
 
 init();
