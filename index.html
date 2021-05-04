@@ -42,12 +42,13 @@
     <div id="addBookMenuContainer">
       <div id="addBookMenu">
         <h2>Add your book</h2>
-        <form>
+        <form method="dialog">
           <input
             type="text"
             name="title"
             placeholder="Title"
             required
+            maxlength="35"
             autocomplete="off"
           />
           <input
@@ -55,6 +56,7 @@
             name="author"
             placeholder="Author"
             required
+            maxlength="25"
             autocomplete="off"
           />
           <input
@@ -76,8 +78,8 @@
               />
             </div>
           </div>
+          <button id="submitForm" type="submit">Add</button>
         </form>
-        <button id="submitForm">Add</button>
       </div>
     </div>
   </body>

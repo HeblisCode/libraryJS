@@ -29,15 +29,22 @@ function removeBookFromShelf(id) {
 
 //NEW BOOK FORM*******************************************************************************************************
 function submitForm() {
+  const form = document.querySelector("form");
   const bookInfo = document.querySelectorAll("form > input");
   const readInfo = document.querySelector("#trueCheckboxForm");
+
+  if (Array.from(bookInfo).some((element) => element.checkValidity() === false))
+    return;
   const newBook = addBookToShelf(
     bookInfo[0].value,
     bookInfo[1].value,
-    bookInfo[2].value,
+    bookInfo[2].value > 9999
+      ? `${Math.floor(bookInfo[2].value / 1000)}K`
+      : bookInfo[2].value, //changes notation if the number is too big
     readInfo.checked,
     "id" + Math.floor(Math.random() * 99999) //random id
   );
+  form.reset();
   displayBook(newBook);
   closePopUpMenu("addBookMenuContainer");
 }
@@ -80,7 +87,6 @@ function createDeleteButton() {
 }
 function addEventListenerToBook(book) {
   const bookContainer = document.querySelector(`#${book.id}`);
-  console.log(bookContainer);
   const deleteButton = bookContainer.querySelector(".deleteButton");
   const checkbox = bookContainer.querySelector(
     ".readStatusContainer > div > span"
@@ -175,7 +181,7 @@ function init() {
   addBookButton.addEventListener("click", () => {
     openPopUpMenu("addBookMenuContainer");
   });
-  submitFormButton.addEventListener("click", () => {
+  submitFormButton.addEventListener("mousedown", () => {
     submitForm();
   });
   checkbox.addEventListener("click", (e) => {
