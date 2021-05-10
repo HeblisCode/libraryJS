@@ -1,17 +1,19 @@
 let shelf = [];
 
-function Book(title, author, pages, read, id) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = id;
-}
+class Book {
+  constructor(title, author, pages, read, id) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = id;
+  }
 
-Book.prototype.toggleReadStatus = function () {
-  this.read = !this.read;
-  localStorage.setItem("shelfArray", JSON.stringify(shelf));
-};
+  toggleReadStatus() {
+    this.read = !this.read;
+    localStorage.setItem("shelfArray", JSON.stringify(shelf));
+  }
+}
 
 //ADD BOOKS******************************************************************************************************************************
 function addBookToShelf(title, author, pages, read, id) {
